@@ -6,7 +6,9 @@ self.addEventListener('install', function(e) {
         '/',
         '/index.html',
         '/manifest.json',
-        '/favicon.ico'
+        '/favicon.ico',
+        '/icon192.png',
+        '/icon512.png'
       ]);
     })
   );
