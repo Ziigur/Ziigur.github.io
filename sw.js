@@ -4,7 +4,9 @@ self.addEventListener('install', function(e) {
     caches.open('cache_v1').then(function(cache) {
       return cache.addAll([
         '/',
-        '/index.html'
+        '/index.html',
+        '/manifest.json',
+        '/favicon.ico'
       ]);
     })
   );
