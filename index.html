@@ -5,8 +5,12 @@
   </head>
   <body>
     <p>This PWA is working!</p>
+    <button id="installBtn" style="display: none;">Install</button>
     <script>
   
+        let deferredPrompt;
+        let installBtn = document.getElementById("installBtn");
+
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js').then(function(registration) {
             console.log('Service worker registration succeeded:', registration);
@@ -16,6 +20,29 @@
         } else {
           console.log('Service workers are not supported.');
         }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          // Stash the event so it can be triggered later.
+          deferredPrompt = e;
+          installBtn.style.display = "inline-block";
+        });
+
+        installBtn.addEventListener('click', (e) => {
+
+          installBtn.style.display = 'none';
+          
+          deferredPrompt.prompt();
+
+          deferredPrompt.userChoice
+            .then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
     
       </script>
   </body>
